@@ -2,6 +2,10 @@
 
 This guide will help you set up n8n, an open-source workflow automation tool, using Docker Compose for a self-hosted environment.
 
+## Community nodes included
+
+- [n8n-nodes-puppeteer](https://github.com/drudge/n8n-nodes-puppeteer)
+
 ## Prerequisites
 
 - Docker and Docker Compose installed on your server or local machine.
