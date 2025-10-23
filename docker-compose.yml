@@ -1,0 +1,57 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT}:5678"
+    environment:
+      # n8n.
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - N8N_PORT=5678
+
+      # Basic auth.
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+
+      # Useful settings.
+      - TZ=Europe/Budapest
+      - GENERIC_TIMEZONE=Europe/Budapest
+      - NODE_ENV=production
+      - N8N_DIAGNOSTICS_ENABLED=false
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=none
+
+      # (Optional) Browserless WS endpoint.
+      - BROWSERLESS_WS=ws://browserless:3000?token=${BROWSERLESS_TOKEN}
+
+    volumes:
+      - n8n_data:/home/node/.n8n
+      # Shared files.
+      - ./files:/files
+
+    depends_on:
+      - browserless
+
+  browserless:
+    image: ghcr.io/browserless/chromium:latest
+    container_name: browserless
+    restart: unless-stopped
+    environment:
+      - CONCURRENT=5
+      - TOKEN=${BROWSERLESS_TOKEN}
+      # For cookies, localStorage, etc.
+      - DATA_DIR=/tmp
+    ports:
+      - "3000:3000"
+    volumes:
+      - browserless_data:/data
+    # Extra safety: only on internal network.
+    # networks: [internal]
+
+volumes:
+  n8n_data:
+  browserless_data:
