@@ -4,7 +4,7 @@ This guide will help you set up n8n, an open-source workflow automation tool, us
 
 ## Community nodes included
 
-- [n8n-nodes-puppeteer](https://github.com/drudge/n8n-nodes-puppeteer)
+- [n8n-nodes-puppeteer](https://github.com/drudge/n8n-nodes-puppeteer) with [puppeteer-har](https://github.com/Everettss/puppeteer-har)
 
 ## Prerequisites
 
